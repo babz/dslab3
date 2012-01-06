@@ -1,5 +1,7 @@
 package scheduler;
 
+import general.Config;
+
 import java.io.IOException;
 
 public class SchedulerMain {
@@ -11,18 +13,18 @@ public class SchedulerMain {
 
 		// TODO fehlerbehandlung für typen
 		//params = int tcpPort, int udpPort, int min, int max, int timeout, int checkPeriod
-		int noOfParams = 6;
+		int noOfParams = 5;
 		if(args.length != noOfParams) {
 			System.out.println("Error: Too few arguments!");
 			return;
 		}
 
-		int tcpPort = Integer.parseInt(args[0]);
-		int udpPort = Integer.parseInt(args[1]);
-		int min = Integer.parseInt(args[2]); //min amt of used GTEs
-		int max = Integer.parseInt(args[3]); //max amt of used GTEs
-		int timeout = Integer.parseInt(args[4]);
-		int checkPeriod = Integer.parseInt(args[5]);
+		int tcpPort = new Config("scheduler").getInt("tcp.port");
+		int udpPort = Integer.parseInt(args[0]);
+		int min = Integer.parseInt(args[1]); //min amt of used GTEs
+		int max = Integer.parseInt(args[2]); //max amt of used GTEs
+		int timeout = Integer.parseInt(args[3]);
+		int checkPeriod = Integer.parseInt(args[4]);
 
 
 		GTEManager engineManager = null;

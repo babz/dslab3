@@ -1,5 +1,7 @@
 package management;
 
+import general.Config;
+
 import java.io.File;
 import java.io.IOException;
 import java.rmi.AccessException;
@@ -11,7 +13,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import propertyReader.RegistryReader;
-import remote.ILogin;
 
 
 /**
@@ -31,7 +32,7 @@ public class ManagementMain {
 	public static void main(String[] args) {
 
 		// params = String bindingName, String schedulerHost, int schedulerTCPPort, int preparationCosts, String taskDir
-		int noOfParams = 5;
+		int noOfParams = 4;
 		if(args.length != noOfParams) {
 			System.out.println("Error: Too few arguments!");
 			return;
@@ -39,9 +40,9 @@ public class ManagementMain {
 
 		String bindingName = args[0];
 		schedulerHost = args[1];
-		schedulerTCPPort = Integer.parseInt(args[2]);
-		preparationCosts = Integer.parseInt(args[3]);
-		File taskDir = new File(args[4]); //optional
+		schedulerTCPPort = new Config("manager").getInt("scheduler.tcp.port");
+		preparationCosts = Integer.parseInt(args[2]);
+		File taskDir = new File(args[3]); //optional
 
 		LoginImpl login = null;
 		Registry registry = null;
