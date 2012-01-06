@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC"/>
+	<classpathentry kind="lib" path="D:/TUWien/7Sem/DS/workspace/dslab3/lib/bcprov-jdk16-144.jar"/>
+	<classpathentry kind="lib" path="D:/TUWien/7Sem/DS/workspace/dslab3/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="con" path="D:/tuwien/7Sem/DS/dslab3/template/build"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
