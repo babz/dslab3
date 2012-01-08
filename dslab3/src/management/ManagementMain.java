@@ -30,7 +30,6 @@ public class ManagementMain {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
 		// params = String bindingName, String schedulerHost, int schedulerTCPPort, int preparationCosts, String taskDir
 		int noOfParams = 4;
 		if(args.length != noOfParams) {
@@ -44,8 +43,6 @@ public class ManagementMain {
 		preparationCosts = Integer.parseInt(args[2]);
 		File taskDir = new File(args[3]); //optional
 		
-		System.out.println("TCP-port: " + new Config("manager").getInt("scheduler.tcp.port"));
-
 		LoginImpl login = null;
 		Registry registry = null;
 		

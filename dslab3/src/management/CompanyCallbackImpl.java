@@ -23,6 +23,9 @@ public class CompanyCallbackImpl implements ICompanyMode {
 	@Override
 	public void logout() throws RemoteException {
 		// callback instantiated only after successful login
+		if(!company.isOnline()) {
+			return;
+		}
 		company.setOffline();
 		UnicastRemoteObject.unexportObject(this, false);
 	}

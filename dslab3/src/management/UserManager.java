@@ -37,7 +37,7 @@ public class UserManager {
 	public UserInfo getUserInfo(String name) {
 		return allUsers.get(name);
 	}
-	
+
 	/**
 	 * @param username 
 	 * @return true if logout successful
@@ -50,8 +50,6 @@ public class UserManager {
 		}
 		return false;
 	}
-	
-	//TODO check online status and amount of requested tasks per category
 
 	public String getUsersAndTasks() {
 		StringBuffer users = new StringBuffer();
@@ -65,5 +63,12 @@ public class UserManager {
 		return users.toString();
 	}
 
+	public String getAllUsers() {
+		StringBuffer everyone = new StringBuffer();
+		for(String s: allUsers.keySet()) {
+			everyone.append(s + "\n");
+		}
 
+		return everyone.toString();
+	}
 }

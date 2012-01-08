@@ -8,9 +8,9 @@ import remote.ManagementException;
 
 
 public class AdminCallbackImpl implements IAdminMode {
-	
+
 	private UserInfo admin;
-	
+
 	public AdminCallbackImpl(UserInfo adminInfo) {
 		admin = adminInfo;
 	}
@@ -18,10 +18,13 @@ public class AdminCallbackImpl implements IAdminMode {
 	@Override
 	public void logout() throws RemoteException {
 		//callback instantiated only after successful login
+		if(!admin.isOnline()) {
+			return;
+		}
 		admin.setOffline();
 		UnicastRemoteObject.unexportObject(this, false);
 	}
-	
+
 	@Override
 	public boolean isAdmin() throws RemoteException {
 		return true;
