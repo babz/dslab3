@@ -1,12 +1,13 @@
 package scheduler;
 
-import GTEs.EngineIdentifier;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Hashtable;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
+
+import GTEs.EngineIdentifier;
 
 /**
  * listens to alivePackages and forwards them to the parser
@@ -14,7 +15,8 @@ import java.util.logging.Logger;
  *
  */
 public class GTEListener implements Runnable {
-	private static Logger log = Logger.getLogger("class GTE listener");
+//	private static Logger log = Logger.getLogger("class GTE listener");
+	private static final Logger LOG = Logger.getLogger(GTEListener.class);
 
 	private DatagramPacket packet;
 	private DatagramSocket datagramSocket;
@@ -32,7 +34,7 @@ public class GTEListener implements Runnable {
 
 	@Override
 	public void run() {
-		log.info("run");
+		LOG.info("run");
 		while (alive ) {
 			try {
 				//receive packages and forward them

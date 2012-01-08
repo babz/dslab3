@@ -1,11 +1,12 @@
 package scheduler;
 
-import GTEs.EngineIdentifier;
-
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.util.Hashtable;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
+
+import GTEs.EngineIdentifier;
 
 /**
  * parses the alive-messages from the engine
@@ -13,7 +14,8 @@ import java.util.logging.Logger;
  *
  */
 public class GTEAliveMsgParser implements Runnable {
-	private static Logger log = Logger.getLogger("class gte alivemsg parser");
+//	private static Logger log = Logger.getLogger("class gte alivemsg parser");
+	private static final Logger LOG = Logger.getLogger(GTEAliveMsgParser.class);
 
 	private DatagramPacket packet;
 	private Hashtable<EngineIdentifier, GTEInfo> engines;
@@ -40,7 +42,7 @@ public class GTEAliveMsgParser implements Runnable {
 			minCons = Integer.parseInt(msgParts[1]);
 			maxCons = Integer.parseInt(msgParts[2]);
 		} catch (NumberFormatException exc) {
-			log.warning("parsing failed");
+			LOG.warn("parsing failed");
 		}
 
 		//update time if engine already in hashtable, add new engine with time otherwise

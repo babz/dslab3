@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import org.apache.log4j.Logger;
+
 import propertyReader.RegistryReader;
 import remote.ILogin;
 import remote.ManagementException;
@@ -19,6 +21,8 @@ public class ClientMain {
 	 */
 	public static void main(String[] args) {
 
+		final Logger LOG = Logger.getLogger(ClientMain.class);
+		
 //		params = String schedulerHost, int schedulerTCPPort, String taskDir
 		int noOfParams = 2;
 		if(args.length != noOfParams) {
@@ -34,12 +38,14 @@ public class ClientMain {
 			RegistryReader registryDetails = new RegistryReader(); 
 			Registry registry = LocateRegistry.getRegistry(registryDetails.getRegistryHost(), registryDetails.getRegistryPort());
 			login = (ILogin) registry.lookup(mgmtComponent);
+			LOG.info("registry looked up");
 			//TODO comp.executeTask() -> aufruf der engineAnforderung u der prepare
 		} catch (NotBoundException e) {
+			LOG.error("client was not bound");
 			System.err.println("ClientMain Exception");
 			e.printStackTrace();
 		} catch (IOException ioExc) {
-			//TODO
+			LOG.error("io exc in clientMain");
 		}
 		
 		ClientInfoPoint commandReader;

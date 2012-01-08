@@ -6,7 +6,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 /**
  * socket that sends alive messages constantly
@@ -14,8 +15,9 @@ import java.util.logging.Logger;
  *
  */
 public class AliveSignalEmitter implements Runnable {
-	private static Logger log = Logger.getLogger("class GTE");
-
+//	private static Logger log = Logger.getLogger("class GTE");
+	private static final Logger LOG = Logger.getLogger(AliveSignalEmitter.class);
+	
 	private DatagramSocket datagramSocket;
 	private int udpPort, tcpPort;
 	private int minConsumption, maxConsumption;
@@ -42,7 +44,7 @@ public class AliveSignalEmitter implements Runnable {
 	// send alive-packages
 	@Override
 	public void run() {
-		log.info("sending alive packages");
+		LOG.info("sending alive packages");
 		message = tcpPort + " " + minConsumption + " " + maxConsumption;
 		while (alive) {
 			int packetLength = 100;

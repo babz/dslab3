@@ -4,7 +4,8 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.Hashtable;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import GTEs.EngineIdentifier;
 
@@ -16,7 +17,8 @@ import GTEs.EngineIdentifier;
  * 
  */
 public class GTEManager implements Runnable {
-	private static Logger log = Logger.getLogger("class engine manager");
+//	private static Logger log = Logger.getLogger("class engine manager");
+	private static final Logger LOG = Logger.getLogger(GTEManager.class);
 
 	private int min, max, timeout, checkPeriod;
 	private DatagramSocket datagramSocket;
@@ -40,7 +42,7 @@ public class GTEManager implements Runnable {
 
 	@Override
 	public void run() {
-		log.info("manager started");
+		LOG.info("manager started");
 
 		// listener (precisely aliveMsgParser) fills 'allEngines'
 		listener = new GTEListener(datagramSocket, allEngines);

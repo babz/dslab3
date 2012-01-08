@@ -2,7 +2,8 @@ package scheduler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 /**
  * manages Server Socket
@@ -11,7 +12,8 @@ import java.util.logging.Logger;
  */
 public class ClientConnectionManager implements Runnable {
 	@SuppressWarnings("unused")
-	private static Logger log = Logger.getLogger("class client connection manager");
+//	private static Logger log = Logger.getLogger("class client connection manager");
+	private static final Logger LOG = Logger.getLogger(ClientConnectionManager.class);
 
 	private ServerSocket serverSocket;
 	private GTEManager engineManager;

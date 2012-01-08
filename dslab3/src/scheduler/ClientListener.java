@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import GTEs.EngineIdentifier;
 
@@ -16,7 +17,9 @@ import GTEs.EngineIdentifier;
  *
  */
 public class ClientListener implements Runnable {
-	private static Logger log = Logger.getLogger("client listener");
+//	private static Logger log = Logger.getLogger("client listener");
+	private static final Logger LOG = Logger.getLogger(ClientListener.class);
+	
 	private PrintWriter out;
 	private BufferedReader in;
 	private Socket clientSocket;
@@ -31,7 +34,7 @@ public class ClientListener implements Runnable {
 
 	@Override
 	public void run() {
-		log.info("read stream from client");
+		LOG.info("read stream from client");
 
 		String input = null;
 		try {

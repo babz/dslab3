@@ -7,7 +7,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Hashtable;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 /**
  * controlls energy efficience of engines and manages suspension/activation;
@@ -17,7 +18,8 @@ import java.util.logging.Logger;
  * 
  */
 public class GTEController implements Runnable {
-	private static Logger log = Logger.getLogger("class GTE suspender");
+//	private static Logger log = Logger.getLogger("class GTE suspender");
+	private static final Logger LOG = Logger.getLogger(GTEController.class);
 
 	private DatagramSocket datagramSocket;
 	private int min, max, timeout, checkPeriod;
@@ -43,7 +45,7 @@ public class GTEController implements Runnable {
 
 	@Override
 	public void run() {
-		log.info("run");
+		LOG.info("run");
 		Hashtable<EngineIdentifier, GTEInfo> activeEngines = new Hashtable<EngineIdentifier, GTEInfo>();
 		Hashtable<EngineIdentifier, GTEInfo> zeroLoadEngines = new Hashtable<EngineIdentifier, GTEInfo>();
 		while (alive) {
