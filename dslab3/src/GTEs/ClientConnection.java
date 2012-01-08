@@ -40,6 +40,7 @@ public class ClientConnection implements Runnable {
 				
 				System.out.println("execute task");
 				
+				//relief #2
 				String effort = cmd[1];
 				int load = 0;
 				if(effort.equals("LOW")) {
@@ -60,12 +61,12 @@ public class ClientConnection implements Runnable {
 				// read file from client
 				System.out.println("finished reading file from client - not implemented, see relief #1");
 				
-				out.writeUTF("Starting execution");
+				out.writeUTF("Starting execution\n");
 				
 				manager.addLoad(load);
 				
 				// TODO relief #2
-				out.writeUTF("begin task xyz");
+				out.writeUTF("begin task xyz\n");
 				Thread.sleep(sleepTime); // simulate execution
 				
 				out.writeUTF("task completed successfully");

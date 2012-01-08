@@ -1,9 +1,9 @@
 package management;
 
 import java.io.IOException;
-import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -20,7 +20,7 @@ import remote.ManagementException;
 public class LoginImpl implements ILogin {
 
 	private UserManager cManager = null;
-	private Set<IUser> allUsers = new TreeSet<IUser>();
+	private Set<IUser> allUsers = new HashSet<IUser>();
 
 	public LoginImpl() throws IOException {
 		cManager = UserManager.getInstance();

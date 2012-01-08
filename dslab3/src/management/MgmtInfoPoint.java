@@ -19,6 +19,8 @@ public class MgmtInfoPoint {
 			if (command.equals("!users")) {
 				System.out.println(userManager.getUsersAndTasks());
 			} else if (command.equals("!exit")) {
+				//Impl see MgmtMain!
+				//logs out all clients and unexports RO
 				return;
 			} else {
 				System.out.println("Invalid command!");
