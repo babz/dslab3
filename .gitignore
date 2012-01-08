@@ -1,0 +1,14 @@
+# Ignore the following dirs:
+dslab3/build
+dslab3/bin
+
+
+# Ignore eclipse files
+.claspath
+.project
+.settings
+
+
+# autosaves, backups, history
+.metadata
+build.xml
