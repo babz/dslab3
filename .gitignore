@@ -4,7 +4,7 @@ dslab3/bin
 
 
 # Ignore eclipse files
-.claspath
+.classpath
 .project
 .settings
 
