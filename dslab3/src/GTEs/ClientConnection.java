@@ -1,15 +1,21 @@
 package GTEs;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.Socket;
 
+import org.apache.log4j.Logger;
+
 public class ClientConnection implements Runnable {
+	
+	private static final Logger LOG = Logger.getLogger(ClientConnection.class);
 
 	private Socket sock;
-	@SuppressWarnings("unused")
-	private String dir; //relief
+	private String dir; //relief #2
 	private EngineManager manager;
 	private DataInputStream in = null;
 	private DataOutputStream out = null;
@@ -27,18 +33,21 @@ public class ClientConnection implements Runnable {
 	public void run() {
 		int sleepTime = 0;
 		try {
-			System.out.println("opening streams");
+			LOG.debug("opening streams");
 			
 			in = new DataInputStream(sock.getInputStream());
 			out = new DataOutputStream(sock.getOutputStream());
 			
-			System.out.println("splitting command");
+			LOG.debug("splitting command");
 			
 			// receive task command + taskData
 			String[] cmd = in.readUTF().split(" ");
 			if(cmd[0].equals("!executeTask")) {
 				
-				System.out.println("execute task");
+				LOG.debug("execute task");
+				for(int i = 0; i < cmd.length; i++) {
+					System.out.println(cmd[i] + " , ");
+				}
 				
 				//relief #2
 				String effort = cmd[1];
@@ -54,22 +63,29 @@ public class ClientConnection implements Runnable {
 					sleepTime = 60000 * 5;
 				}
 				@SuppressWarnings("unused")
-				String startScript = cmd[2];
+				
+				String startScript = cmd[2] + " " + cmd[3] + " " + cmd[4];
 				
 				//TODO relief #1
-				System.out.println("read file from client - not implemented, see relief #1");
+				LOG.info("read file from client - not implemented, see relief #1");
 				// read file from client
-				System.out.println("finished reading file from client - not implemented, see relief #1");
+				LOG.info("finished reading file from client - not implemented, see relief #1");
 				
-				out.writeUTF("Starting execution\n");
+//				out.writeUTF("Starting execution\n");
+				LOG.info("!executeTask execution started");
 				
 				manager.addLoad(load);
 				
 				// TODO relief #2
-				out.writeUTF("begin task xyz\n");
+				Process proc = Runtime.getRuntime().exec(startScript);
+				
+				BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+						
+//				out.writeUTF("begin task xyz\n");
 				Thread.sleep(sleepTime); // simulate execution
 				
-				out.writeUTF("task completed successfully");
+				
+				out.writeUTF(reader.readLine());
 				
 				manager.removeLoad(load);
 			} else if (cmd[0].equals("!currentLoad")) {

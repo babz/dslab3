@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import propertyReader.RegistryReader;
@@ -16,23 +17,26 @@ import remote.ManagementException;
 
 public class ClientMain {
 
+	public static final Logger LOG = Logger.getLogger(ClientMain.class);
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
-		final Logger LOG = Logger.getLogger(ClientMain.class);
-		
-//		params = String schedulerHost, int schedulerTCPPort, String taskDir
+		// Set up a simple configuration that logs on the console.
+		BasicConfigurator.configure();
+
+		//		params = String schedulerHost, int schedulerTCPPort, String taskDir
 		int noOfParams = 2;
 		if(args.length != noOfParams) {
 			System.out.println("Error: Too few arguments!");
 			return;
 		}
-		
+
 		String mgmtComponent = args[0];
 		File taskDir = new File(args[1]);
-		
+
 		ILogin login = null;
 		try {
 			RegistryReader registryDetails = new RegistryReader(); 
@@ -47,7 +51,7 @@ public class ClientMain {
 		} catch (IOException ioExc) {
 			LOG.error("io exc in clientMain");
 		}
-		
+
 		ClientInfoPoint commandReader;
 		try {
 			commandReader = new ClientInfoPoint(login, taskDir);

@@ -2,12 +2,17 @@ package GTEs;
 
 import java.net.SocketException;
 
+import org.apache.log4j.BasicConfigurator;
+
 public class GTEMain {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
+		// Set up a simple configuration that logs on the console.
+		BasicConfigurator.configure();
 
 		// TODO fehlerbehandlung für typen
 		// params = int tcpPort, String schedulerHost, int schedulerUDPPort, int
@@ -27,15 +32,15 @@ public class GTEMain {
 		String taskDir = args[6];
 
 		EngineManager manager = null;
-		
+
 		try {
-			 manager = new EngineManager(udpPort, tcpPort,
+			manager = new EngineManager(udpPort, tcpPort,
 					schedulerHost, alivePeriod, minConsumption, maxConsumption, taskDir);
 			new Thread(manager).start();
-			
+
 			EngineInfoPoint commandReader = new EngineInfoPoint(manager);
 			commandReader.read();
-			
+
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,7 +49,7 @@ public class GTEMain {
 				manager.terminate();
 			}
 		}
-		
+
 	}
 
 }

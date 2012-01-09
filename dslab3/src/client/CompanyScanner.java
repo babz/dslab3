@@ -4,12 +4,16 @@ import java.io.File;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import org.apache.log4j.Logger;
+
 import remote.ICompanyMode;
 import remote.INotifyClientCallback;
 import remote.ManagementException;
 import remote.NotifyClientCallbackImpl;
 
 public class CompanyScanner implements ICommandScanner {
+
+	private static final Logger LOG = Logger.getLogger(CompanyScanner.class);
 
 	private ICompanyMode company;
 	private File taskDir;
@@ -57,23 +61,29 @@ public class CompanyScanner implements ICommandScanner {
 			System.out.println("Task with id " + id + " prepared.");
 
 		} else if (cmd[0].equals("!executeTask")) {
-//			if(!checkNoOfArgs(cmd, 4)) {
-//				return;
-//				}
-//				int id = Integer.parseInt(cmd[1]);
-//				String script = "";
-//				for(int i = 2; i < 5; i++) {
-//				script += cmd[i];
-//				}
-//				company.executeTask(id, script, callbackNotification);
-//				System.out.println("Execution for task " + id + " started.");
-			if(!checkNoOfArgs(cmd, 2)) {
+			if(!checkNoOfArgs(cmd, 4)) {
 				return;
 			}
 			int id = Integer.parseInt(cmd[1]);
-			String script = cmd[2];
+			String script = "";
+			//!execute <taskid> "java -jar bla.jar"
+			for(int i = 2; i < 5; i++) {
+				if(i == 4) {
+					script += cmd[i];
+				} else {
+					script += cmd[i] + " ";
+				}
+			}
+			LOG.info(script);
 			company.executeTask(id, script, callbackNotification);
 			System.out.println("Execution for task " + id + " started.");
+			//			if(!checkNoOfArgs(cmd, 2)) {
+			//				return;
+			//			}
+			//			int id = Integer.parseInt(cmd[1]);
+			//			String script = cmd[2];
+			//			company.executeTask(id, script, callbackNotification);
+			//			System.out.println("Execution for task " + id + " started.");
 
 		} else if (cmd[0].equals("!info")) {
 			if(!checkNoOfArgs(cmd, 1)) {

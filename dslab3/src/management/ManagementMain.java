@@ -12,6 +12,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+import org.apache.log4j.BasicConfigurator;
+
 import propertyReader.RegistryReader;
 
 
@@ -24,12 +26,16 @@ public class ManagementMain {
 
 	private static int schedulerTCPPort, preparationCosts;
 	private static String schedulerHost;
-	
+
 	/**
 	 * @param args
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
+
+		// Set up a simple configuration that logs on the console.
+		BasicConfigurator.configure();
+
 		// params = String bindingName, String schedulerHost, int schedulerTCPPort, int preparationCosts, String taskDir
 		int noOfParams = 4;
 		if(args.length != noOfParams) {
@@ -42,10 +48,10 @@ public class ManagementMain {
 		schedulerTCPPort = new Config("manager").getInt("scheduler.tcp.port");
 		preparationCosts = Integer.parseInt(args[2]);
 		File taskDir = new File(args[3]); //optional
-		
+
 		LoginImpl login = null;
 		Registry registry = null;
-		
+
 		try {
 			RegistryReader registryLocation = new RegistryReader();
 			//Creates and exports a Registry instance on the local host that accepts requests on the specified port.
@@ -91,5 +97,5 @@ public class ManagementMain {
 	public static synchronized String getSchedulerHost() {
 		return schedulerHost;
 	}
-	
+
 }
