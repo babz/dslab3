@@ -1,5 +1,6 @@
 package GTEs;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -20,12 +21,12 @@ public class EngineManager implements Runnable {
 	private DatagramSocket datagramSocket;
 	private SchedulerListener scheduleListener;
 	private AliveSignalEmitter emitter;
-	private String taskDir;
+	private File taskDir;
 	private int load;
 	private ConnectionListener connectionListener;
 
 	public EngineManager(int udpPort, int tcpPort, String schedulerHost,
-			int alivePeriod, int minConsumption, int maxConsumption, String taskDir) throws SocketException {
+			int alivePeriod, int minConsumption, int maxConsumption, File taskDir) throws SocketException {
 		udp = udpPort;
 		datagramSocket = new DatagramSocket();
 		tcp = tcpPort;

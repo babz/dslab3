@@ -61,14 +61,15 @@ public class CompanyScanner implements ICommandScanner {
 			System.out.println("Task with id " + id + " prepared.");
 
 		} else if (cmd[0].equals("!executeTask")) {
-			if(!checkNoOfArgs(cmd, 4)) {
+			if(cmd.length < 5) {
+				System.out.println("Not enough arguments!");
 				return;
 			}
 			int id = Integer.parseInt(cmd[1]);
 			String script = "";
 			//!execute <taskid> "java -jar bla.jar"
-			for(int i = 2; i < 5; i++) {
-				if(i == 4) {
+			for(int i = 2; i < cmd.length; i++) {
+				if (i == (cmd.length-1)) {
 					script += cmd[i];
 				} else {
 					script += cmd[i] + " ";
@@ -77,13 +78,6 @@ public class CompanyScanner implements ICommandScanner {
 			LOG.info(script);
 			company.executeTask(id, script, callbackNotification);
 			System.out.println("Execution for task " + id + " started.");
-			//			if(!checkNoOfArgs(cmd, 2)) {
-			//				return;
-			//			}
-			//			int id = Integer.parseInt(cmd[1]);
-			//			String script = cmd[2];
-			//			company.executeTask(id, script, callbackNotification);
-			//			System.out.println("Execution for task " + id + " started.");
 
 		} else if (cmd[0].equals("!info")) {
 			if(!checkNoOfArgs(cmd, 1)) {

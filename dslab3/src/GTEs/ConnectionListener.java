@@ -1,5 +1,6 @@
 package GTEs;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Collections;
@@ -9,11 +10,11 @@ import java.util.List;
 public class ConnectionListener implements Runnable {
 
 	private ServerSocket socket;
-	private String taskDir;
+	private File taskDir;
 	private EngineManager engineManager;
 	private List<ClientConnection> clients = Collections.synchronizedList(new LinkedList<ClientConnection>());
 
-	public ConnectionListener(int tcp, String taskDir, EngineManager engineManager) throws IOException {
+	public ConnectionListener(int tcp, File taskDir, EngineManager engineManager) throws IOException {
 		socket = new ServerSocket(tcp);
 		this.taskDir = taskDir;
 		this.engineManager = engineManager;

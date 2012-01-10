@@ -1,5 +1,6 @@
 package GTEs;
 
+import java.io.File;
 import java.net.SocketException;
 
 import org.apache.log4j.BasicConfigurator;
@@ -14,9 +15,8 @@ public class GTEMain {
 		// Set up a simple configuration that logs on the console.
 		BasicConfigurator.configure();
 
-		// TODO fehlerbehandlung für typen
-		// params = int tcpPort, String schedulerHost, int schedulerUDPPort, int
-		// alivePeriod, int minConsumption, int maxConsumption, String taskdir
+		// TODO fehlerbehandlung fuer typen
+		// params = managementComponent, taskDir
 		int noOfParams = 7;
 		if (args.length != noOfParams) {
 			System.out.println("Error: Too few arguments!");
@@ -29,7 +29,7 @@ public class GTEMain {
 		int alivePeriod = Integer.parseInt(args[3]);
 		int minConsumption = Integer.parseInt(args[4]);
 		int maxConsumption = Integer.parseInt(args[5]);
-		String taskDir = args[6];
+		File taskDir = new File(args[6]);
 
 		EngineManager manager = null;
 
