@@ -6,10 +6,14 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
+import org.apache.log4j.Logger;
+
 import management.TaskInfo.StatusType;
 import remote.INotifyClientCallback;
 
 public class ExecuteTaskRunnable implements Runnable {
+	
+	private static final Logger LOG = Logger.getLogger(ExecuteTaskRunnable.class);
 
 	private TaskInfo task;
 	private INotifyClientCallback clientCb;
@@ -43,11 +47,16 @@ public class ExecuteTaskRunnable implements Runnable {
 			try {
 				while(true) {
 					lineFromEngine = in.readUTF();
-					System.out.println("received: " + lineFromEngine);
-					taskOutput.append(lineFromEngine);
+					LOG.info("received: " + lineFromEngine);
+					if(!lineFromEngine.startsWith("Started") && !lineFromEngine.startsWith("Finished")) {
+						taskOutput.append(lineFromEngine + "\n");
+					}
 				}
 			} catch(EOFException e) { }
-			System.out.println("finished reading");
+			
+			LOG.info("finished reading");
+			
+			
 			task.setOutput(taskOutput.toString());
 			task.setStatus(StatusType.FINISHED);
 			
@@ -57,7 +66,7 @@ public class ExecuteTaskRunnable implements Runnable {
 			e.printStackTrace();
 		} finally {
 			try {
-				System.out.println("closing streams");
+				LOG.info("closing streams");
 				in.close();
 				out.close();
 				engineSocket.close();

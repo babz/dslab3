@@ -42,7 +42,7 @@ public class ClientConnection implements Runnable {
 
 			// receive task command + taskData
 			String[] cmd = in.readUTF().split(" ");
-
+			
 
 			if(cmd[0].equals("!executeTask")) {
 
@@ -83,6 +83,8 @@ public class ClientConnection implements Runnable {
 				//				out.writeUTF("Starting execution\n");
 				LOG.info("!executeTask execution started");
 
+				out.writeUTF("Started Execution!");
+				
 				manager.addLoad(load);
 
 				// TODO relief #2
@@ -93,10 +95,11 @@ public class ClientConnection implements Runnable {
 				//				out.writeUTF("begin task xyz\n");
 				//				Thread.sleep(sleepTime); // simulate execution
 
-				String tmpLine = reader.readLine();
-				while(tmpLine != null) {
+				String tmpLine = "";
+				while((tmpLine = reader.readLine()) != null) {
 					out.writeUTF(tmpLine);
 				}
+				out.writeUTF("Finished Task!");
 
 				manager.removeLoad(load);
 			} else if (cmd[0].equals("!currentLoad")) {
