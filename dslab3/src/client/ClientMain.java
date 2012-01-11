@@ -6,6 +6,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
@@ -21,8 +23,11 @@ public class ClientMain {
 	
 	/**
 	 * @param args
+	 * @throws NoSuchAlgorithmException 
+	 * @throws NumberFormatException 
+	 * @throws InvalidKeyException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InvalidKeyException, NumberFormatException, NoSuchAlgorithmException {
 
 		// Set up a simple configuration that logs on the console.
 		BasicConfigurator.configure();

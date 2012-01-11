@@ -1,9 +1,13 @@
 package management;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import management.TaskInfo.StatusType;
+import propertyReader.SharedSecretKeyReader;
 import remote.ICompanyMode;
 import remote.INotifyClientCallback;
 import remote.ManagementException;
@@ -80,8 +84,7 @@ public class CompanyCallbackImpl implements ICompanyMode {
 	}
 
 	@Override
-	public String getOutput(int taskId) throws RemoteException,
-	ManagementException {
+	public String getOutput(int taskId) throws ManagementException, IOException, InvalidKeyException, NoSuchAlgorithmException {
 		checkTaskExistanceAndOwner(taskId);
 		if (!taskManager.checkFinished(taskId)) {
 			throw new ManagementException("Task " + taskId
@@ -95,8 +98,12 @@ public class CompanyCallbackImpl implements ICompanyMode {
 							+ " credits) Buy new credits for retrieving the output.");
 		}
 		company.decreaseCredit(costs);
-		return taskManager.getTask(taskId).getOutput();
-		//TODO HMAC generation with secret key of logged in company
+		//HMAC generation with secret key of logged in company
+		StringBuffer outputWithHash = new StringBuffer();
+		outputWithHash.append(taskManager.getTask(taskId).getOutput().getBytes());
+		byte[] computedHash = new SharedSecretKeyReader().createHash("manager", company.getName());
+		outputWithHash.append("\n" + new String(computedHash));
+		return outputWithHash.toString();
 	}
 
 	private void checkTaskExistanceAndOwner(int taskId) throws RemoteException,
@@ -114,5 +121,4 @@ public class CompanyCallbackImpl implements ICompanyMode {
 	public boolean isAdmin() throws RemoteException {
 		return false;
 	}
-
 }

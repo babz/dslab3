@@ -3,7 +3,8 @@ package client;
 
 import java.io.File;
 import java.io.IOException;
-import java.rmi.RemoteException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 import remote.IAdminMode;
@@ -30,7 +31,7 @@ public class ClientInfoPoint {
 		taskDir = clientTaskDir;
 	}
 
-	public void read() throws RemoteException, ManagementException {
+	public void read() throws ManagementException, InvalidKeyException, NumberFormatException, NoSuchAlgorithmException, IOException {
 		while(sc.hasNextLine()) {
 			String[] cmd = sc.nextLine().split(" ");
 			if (cmd[0].equals("!login")) {
@@ -47,7 +48,7 @@ public class ClientInfoPoint {
 						System.out.println("Successfully logged in. Using admin mode.");
 
 					} else {
-						cmdScanner = new CompanyScanner((ICompanyMode) user, taskDir);
+						cmdScanner = new CompanyScanner(companyName, (ICompanyMode) user, taskDir);
 						System.out.println("Successfully logged in. Using company mode.");
 					}
 

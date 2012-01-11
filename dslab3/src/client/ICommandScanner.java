@@ -1,6 +1,9 @@
 package client;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import remote.ManagementException;
 
@@ -11,8 +14,12 @@ public interface ICommandScanner {
 	 * @param cmd command with args
 	 * @throws RemoteException
 	 * @throws ManagementException 
+	 * @throws IOException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws NumberFormatException 
+	 * @throws InvalidKeyException 
 	 */
-	public void readCommand(String[] cmd) throws RemoteException, ManagementException;
+	public void readCommand(String[] cmd) throws RemoteException, ManagementException, InvalidKeyException, NumberFormatException, NoSuchAlgorithmException, IOException;
 	
 	/**
 	 * logs out either company or admin

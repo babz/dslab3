@@ -1,10 +1,15 @@
 package client;
 
 import java.io.File;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import org.apache.log4j.Logger;
+
+import propertyReader.SharedSecretKeyReader;
 
 import remote.ICompanyMode;
 import remote.INotifyClientCallback;
@@ -16,17 +21,19 @@ public class CompanyScanner implements ICommandScanner {
 	private static final Logger LOG = Logger.getLogger(CompanyScanner.class);
 
 	private ICompanyMode company;
+	private String companyName;
 	private File taskDir;
 	private INotifyClientCallback callbackNotification = new NotifyClientCallbackImpl();
 
-	public CompanyScanner(ICompanyMode loggedInCompany, File clientTaskDir) throws RemoteException {
+	public CompanyScanner(String companyName, ICompanyMode loggedInCompany, File clientTaskDir) throws RemoteException {
 		company = loggedInCompany;
+		this.companyName = companyName;
 		taskDir = clientTaskDir;
 		UnicastRemoteObject.exportObject(callbackNotification, 0);
 	}
 
 	@Override
-	public void readCommand(String[] cmd) throws RemoteException, ManagementException {
+	public void readCommand(String[] cmd) throws ManagementException, InvalidKeyException, NumberFormatException, NoSuchAlgorithmException, IOException {
 		if (cmd[0].equals("!list")) { //LOCALLY
 			if(!checkNoOfArgs(cmd, 0)) {
 				return;
@@ -89,10 +96,24 @@ public class CompanyScanner implements ICommandScanner {
 			if(!checkNoOfArgs(cmd, 1)) {
 				return;
 			}
-			System.out.println(company.getOutput(Integer.parseInt(cmd[1])));
+			//compute hash and verify: compare with received hash
+			byte[] computedHash = new SharedSecretKeyReader().createHash("client", companyName);
+			//seperate task-output and received hash
+			String receivedOutput = company.getOutput(Integer.parseInt(cmd[1]));
+			LOG.info(receivedOutput);
+			String[] outputSplit = receivedOutput.split("\r\n");
+			String receivedHash = outputSplit[outputSplit.length - 1];
+			String output = receivedOutput.substring(0, (receivedOutput.length() - receivedHash.length()));
+			LOG.info(output);
+			if(new SharedSecretKeyReader().verifyHash(computedHash, receivedHash)) {
+				System.out.println(output);
+			} else {
+				System.out.println("WARNING: Someone hacked your output!");
+			}
 
 		} else if (checkForAdminCommand(cmd[0])) {
 			System.out.println("Command not allowed. You are not an admin.");
+			
 		} else {
 			System.out.println("Invalid command");
 		}

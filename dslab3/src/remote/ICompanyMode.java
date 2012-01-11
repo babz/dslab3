@@ -1,7 +1,10 @@
 package remote;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 
 /**
@@ -62,6 +65,9 @@ public interface ICompanyMode extends Remote, IUser {
 	 * 					otherwise make the user pay first
 	 * @throws RemoteException if not enough credit or task doesn't belong to company
 	 * @throws ManagementException 
+	 * @throws IOException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws InvalidKeyException 
 	 */
-	String getOutput(int taskId) throws RemoteException, ManagementException;
+	String getOutput(int taskId) throws RemoteException, ManagementException, IOException, InvalidKeyException, NoSuchAlgorithmException;
 }
