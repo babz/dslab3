@@ -96,6 +96,7 @@ public class CompanyCallbackImpl implements ICompanyMode {
 		}
 		company.decreaseCredit(costs);
 		return taskManager.getTask(taskId).getOutput();
+		//TODO HMAC generation with secret key of logged in company
 	}
 
 	private void checkTaskExistanceAndOwner(int taskId) throws RemoteException,
