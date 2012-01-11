@@ -6,6 +6,8 @@ import java.rmi.RemoteException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+import management.OutputGenerator;
+
 
 /**
  * remote interface handles all commands valid for companies
@@ -69,5 +71,5 @@ public interface ICompanyMode extends Remote, IUser {
 	 * @throws NoSuchAlgorithmException 
 	 * @throws InvalidKeyException 
 	 */
-	String getOutput(int taskId) throws RemoteException, ManagementException, IOException, InvalidKeyException, NoSuchAlgorithmException;
+	OutputGenerator getOutput(int taskId) throws RemoteException, ManagementException, IOException, InvalidKeyException, NoSuchAlgorithmException;
 }

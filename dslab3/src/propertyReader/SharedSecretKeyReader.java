@@ -46,15 +46,15 @@ public class SharedSecretKeyReader {
 		return hash;
 	}
 
-	public boolean verifyHash(byte[] computedHash, String receivedHash) {
+	public boolean verifyHash(byte[] computedHash, byte[] receivedHash) {
 
 		// computedHash is the HMAC of the received plaintext
 		// byte[] computedHash = hMac.doFinal();
-
+		LOG.info("computedHashByteArray: " + new String(computedHash));
 		// receivedHash is the HMAC that was sent by the communication partner
-		byte[] received = receivedHash.getBytes();
+		LOG.info("receivedHashByteArray: " + new String(receivedHash));
 
-		boolean validHash = MessageDigest.isEqual(computedHash, received);
+		boolean validHash = MessageDigest.isEqual(computedHash, receivedHash);
 		return validHash;
 	}
 }

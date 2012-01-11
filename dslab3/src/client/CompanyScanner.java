@@ -7,6 +7,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+import management.OutputGenerator;
+
 import org.apache.log4j.Logger;
 
 import propertyReader.SharedSecretKeyReader;
@@ -97,16 +99,15 @@ public class CompanyScanner implements ICommandScanner {
 				return;
 			}
 			//compute hash and verify: compare with received hash
-			byte[] computedHash = new SharedSecretKeyReader().createHash("client", companyName);
+			SharedSecretKeyReader secretKeyReader = new SharedSecretKeyReader();
+			byte[] computedHash = secretKeyReader.createHash("client", companyName);
 			//seperate task-output and received hash
-			String receivedOutput = company.getOutput(Integer.parseInt(cmd[1]));
-			LOG.info(receivedOutput);
-			String[] outputSplit = receivedOutput.split("\r\n");
-			String receivedHash = outputSplit[outputSplit.length - 1];
-			String output = receivedOutput.substring(0, (receivedOutput.length() - receivedHash.length()));
-			LOG.info(output);
-			if(new SharedSecretKeyReader().verifyHash(computedHash, receivedHash)) {
-				System.out.println(output);
+			OutputGenerator receivedOutput = company.getOutput(Integer.parseInt(cmd[1]));
+			byte[] receivedHash = receivedOutput.getHash();
+			String output = receivedOutput.getTaskOutput();
+			
+			if(secretKeyReader.verifyHash(computedHash, receivedHash)) {
+				System.out.println("Your requested output:\n" + output);
 			} else {
 				System.out.println("WARNING: Someone hacked your output!");
 			}

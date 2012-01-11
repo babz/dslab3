@@ -84,7 +84,7 @@ public class CompanyCallbackImpl implements ICompanyMode {
 	}
 
 	@Override
-	public String getOutput(int taskId) throws ManagementException, IOException, InvalidKeyException, NoSuchAlgorithmException {
+	public OutputGenerator getOutput(int taskId) throws ManagementException, IOException, InvalidKeyException, NoSuchAlgorithmException {
 		checkTaskExistanceAndOwner(taskId);
 		if (!taskManager.checkFinished(taskId)) {
 			throw new ManagementException("Task " + taskId
@@ -99,11 +99,8 @@ public class CompanyCallbackImpl implements ICompanyMode {
 		}
 		company.decreaseCredit(costs);
 		//HMAC generation with secret key of logged in company
-		StringBuffer outputWithHash = new StringBuffer();
-		outputWithHash.append(taskManager.getTask(taskId).getOutput().getBytes());
 		byte[] computedHash = new SharedSecretKeyReader().createHash("manager", company.getName());
-		outputWithHash.append("\n" + new String(computedHash));
-		return outputWithHash.toString();
+		return new OutputGenerator(taskManager.getTask(taskId).getOutput(), computedHash);
 	}
 
 	private void checkTaskExistanceAndOwner(int taskId) throws RemoteException,
