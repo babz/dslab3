@@ -45,7 +45,7 @@ public class SchedulerMain {
 			clientManager = new ClientConnectionManager(tcpPort, engineManager);
 			new Thread(clientManager).start();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 			System.out.println("connection from scheduler failed");
 		}
 
