@@ -129,6 +129,7 @@ public class CompanyScanner implements ICommandScanner {
 	public void logout() throws RemoteException {
 		company.logout();
 		UnicastRemoteObject.unexportObject(callbackNotification, false);
+		LOG.info("user logged out");
 	}
 
 	private boolean checkNoOfArgs(String[] cmd, int noOfSupposedArgs) {
