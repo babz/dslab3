@@ -6,9 +6,10 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
+import management.TaskInfo.StatusType;
+
 import org.apache.log4j.Logger;
 
-import management.TaskInfo.StatusType;
 import remote.INotifyClientCallback;
 
 public class ExecuteTaskRunnable implements Runnable {
