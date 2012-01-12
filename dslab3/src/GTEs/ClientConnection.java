@@ -31,7 +31,7 @@ public class ClientConnection implements Runnable {
 
 	@Override
 	public void run() {
-		int sleepTime = 0;
+//		int sleepTime = 0;
 		try {
 			LOG.debug("opening streams");
 
@@ -53,13 +53,13 @@ public class ClientConnection implements Runnable {
 				int load = 0;
 				if(effort.equals("LOW")) {
 					load = 33;
-					sleepTime = 30000;
+//					sleepTime = 30000;
 				} else if (effort.equals("MIDDLE")) {
 					load = 66;
-					sleepTime = 60000 * 3;
+//					sleepTime = 60000 * 3;
 				} else if (effort.equals("HIGH")) {
 					load = 100;
-					sleepTime = 60000 * 5;
+//					sleepTime = 60000 * 5;
 				}
 
 				String startScript = "";
